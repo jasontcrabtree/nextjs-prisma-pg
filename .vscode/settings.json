@@ -1,0 +1,15 @@
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "node_modules/": true,
+        ".vscode": true,
+        ".gitignore": true,
+        "**/.next": true,
+        "**/package-lock.json": true
+    },
+    "explorerExclude.backup": null
+}
