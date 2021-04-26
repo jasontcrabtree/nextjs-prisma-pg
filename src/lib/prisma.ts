@@ -1,13 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 
-declare global {
-  namespace NodeJS {
-    interface Global {
-      prisma: any;
-    }
-  }
-}
-
+// eslint-disable-next-line import/no-mutable-exports
 let prisma: PrismaClient;
 
 if (process.env.NODE_ENV === 'production') {
@@ -20,8 +13,6 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // export { };
-
-
 
 /*
 const prismaClientPropertyName = `__prevent-name-collision__prisma`;
