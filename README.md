@@ -25,3 +25,4 @@ Because Prisma Client is tailored to your own schema, you need to update it ever
 - https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/function_components
 - https://fettblog.eu/typescript-react/components/
 - https://nextjs.org/docs/api-reference/next/router
+- https://github.com/prisma/prisma/issues/5726

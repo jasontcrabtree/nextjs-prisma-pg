@@ -9,7 +9,10 @@
         ".vscode": true,
         ".gitignore": true,
         "**/.next": true,
-        "**/package-lock.json": true
+        "**/package-lock.json": true,
+        "**/next-env.d.ts": true,
+        "tsconfig.json": true,
+        "**/public": true
     },
     "explorerExclude.backup": null
 }
