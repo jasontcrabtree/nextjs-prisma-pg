@@ -31,19 +31,29 @@ const Post: React.FC<PostProps> = (props) => {
     await fetch(`http://localhost:3000/api/publish/${id}`, {
       method: 'PUT',
     }).then(() => {
-      console.log('navigate');
       router.push('/');
     });
   }
 
-  if (loading) {
-    return <div>Authenticating ...</div>;
+  async function deletePost(id: number): Promise<void> {
+    await fetch(`http://localhost:3000/api/post/${id}`, {
+      method: 'DELETE',
+    }).then(() => {
+      router.push('/');
+    });
   }
+
   const userHasValidSession = Boolean(session);
+
   const postBelongsToUser = session?.user?.email === props.author?.email;
+
   let { title } = props;
   if (!props.published) {
     title = `${title} (Draft)`;
+  }
+
+  if (loading) {
+    return <div>Authenticating ...</div>;
   }
 
   return (
@@ -55,6 +65,11 @@ const Post: React.FC<PostProps> = (props) => {
         {!props.published && userHasValidSession && postBelongsToUser && (
           <button type="button" onClick={() => publishPost(props.id)}>
             Publish
+          </button>
+        )}
+        {userHasValidSession && postBelongsToUser && (
+          <button type="button" onClick={() => deletePost(props.id)}>
+            Delete
           </button>
         )}
       </div>
