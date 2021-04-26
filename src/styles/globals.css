@@ -1,27 +1,83 @@
 html {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  line-height: 2;
+  background-color: #010503;
 }
 
 main {
-  background-color: rgb(248, 248, 248);
+  color: rgb(236, 190, 130);
   padding: 3rem 1.5rem;
   margin: 4rem auto;
   max-width: 56rem;
+}
+
+nav > button {
+  /* margin: 0px; */
+}
+
+* {
+  margin-top: 0.5rem;
+  border-radius: 4px;
+}
+
+input[type='text'],
+textarea {
+  padding: 1rem;
+}
+
+button,
+input[type='submit'] {
+  background: #012012;
+  color: rgb(48, 175, 97);
+}
+
+input[type='submit'] {
+  padding: 0.5rem 2rem;
+}
+
+a:any-link {
+  color: rgb(48, 175, 97);
 }
 
 main > * + * {
   margin-top: 2rem;
 }
 
-div > main > *  + * {
+div > main > * + * {
   margin-top: 1.5rem;
 }
 
 button {
   box-sizing: border-box;
-  padding: 8px 32px;
-  border-radius: 4px;
+  padding: 16px;
+  border: 1px solid rgb(9, 66, 31);
   font-size: 1rem;
 }
 
+a {
+  border: 1px solid rgb(9, 66, 31);
+  padding: 1rem;
+}
 
+.postBox {
+  border: 1px solid rgb(27, 92, 54);
+  padding: 2rem;
+  margin: 0 auto;
+  max-width: 64ch;
+}
+
+.postBox {
+  margin-top: 1rem;
+}
+
+nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 24px;
+}
+
+nav > * {
+  flex: 1;
+}

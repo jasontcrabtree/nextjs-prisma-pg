@@ -1,7 +1,7 @@
 import { AppProps } from 'next/app';
+import { Provider } from 'next-auth/client';
 import '../styles/reset.css';
 import '../styles/globals.css';
-import { Provider } from 'next-auth/client';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
