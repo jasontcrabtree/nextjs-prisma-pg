@@ -11,7 +11,7 @@ export type PostProps = {
   } | null;
   content: string;
   published: boolean;
-  properties: any;
+  // properties: any;
 };
 
 // function Drafts(props: Props) {
@@ -74,9 +74,15 @@ export type PostProps = {
   );
 }; */
 
+// const  Post = ({ post: PostProps }: PostProps }}) => {
+// function Post(post: PostProps) {
+// const Post = (post: PostProps) => {
+// const Post = ({ post }: { post: PostProps }<{}>) => {
+// const Post: { post: PostProps } = ({ post }) => {
+
+// const Post = (props: PostProps) => {
 const Post: React.FC<{ post: PostProps }> = ({ post }) => {
-  // function Post(post: PostProps) {
-  // const Post = (post: PostProps) => {
+  // const { post } = props;
 
   const authorName = post.author ? post.author.name : 'Unknown author';
 
@@ -92,6 +98,7 @@ const Post: React.FC<{ post: PostProps }> = ({ post }) => {
     //   </button>
     // </div>
     <div className="postBox">
+      {post.published ? null : 'Draft'}
       <Link href={`/post/${post.id}`}>Link</Link>
       <h2>{post.title}</h2>
       <small>{authorName}</small>

@@ -28,7 +28,7 @@ const Blog: React.FC<Props> = ({ feed }) => (
     </section>
     <section>
       {feed.map((post) => (
-        <div key={post.id} className="post">
+        <div key={post.id}>
           <Post post={post} />
         </div>
       ))}

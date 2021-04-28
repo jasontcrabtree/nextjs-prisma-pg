@@ -12,7 +12,8 @@
         "**/package-lock.json": true,
         "**/next-env.d.ts": true,
         "tsconfig.json": true,
-        "**/public": true
+        "**/public": true,
+        "**/next.config.js": true
     },
     "explorerExclude.backup": null
 }

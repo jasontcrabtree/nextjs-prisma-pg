@@ -6,13 +6,16 @@ import Layout from '../components/Layout';
 import Post, { PostProps } from '../components/Post';
 import prisma from '../lib/prisma';
 
+// Server side API call requesting session and drafts
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  // Get the current session
   const session = await getSession({ req });
   if (!session) {
     res.statusCode = 403;
     return { props: { drafts: [] } };
   }
 
+  // Return drafts associated with the author session email
   const drafts = await prisma.post.findMany({
     where: {
       author: { email: session.user.email },
@@ -33,6 +36,8 @@ type Props = {
 
 function Drafts(props: Props) {
   const [session] = useSession();
+
+  console.log(props);
 
   if (!session) {
     return (
