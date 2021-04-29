@@ -14,17 +14,17 @@
 // ***************************** //
 
 generator client {
-  // Prisma client (frontend) setup
   provider      = "prisma-client-js"
-  // Prisma deploy contexts (Vercel/Netlify)
+  // Prisma client (frontend) setup
   binaryTargets = ["native", "debian-openssl-1.0.x"]
+  // Prisma deploy contexts (Vercel/Netlify)
 }
 
 datasource db {
-  // Prisma DB type
   provider = "postgresql"
-  // Prisma DB access secret
+  // Prisma DB type
   url      = env("DATABASE_URL")
+  // Prisma DB access secret
 }
 
 // ----------------------------- //

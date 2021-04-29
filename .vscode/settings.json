@@ -1,5 +1,21 @@
 {
     "files.exclude": {
+        "**/.git": false,
+        "**/.svn": false,
+        "**/.hg": false,
+        "**/CVS": false,
+        "**/.DS_Store": false,
+        "node_modules/": false,
+        ".vscode": false,
+        ".gitignore": false,
+        "**/.next": false,
+        "**/package-lock.json": false,
+        "**/next-env.d.ts": false,
+        "tsconfig.json": false,
+        "**/public": false,
+        "**/next.config.js": false
+    },
+    "explorerExclude.backup": {
         "**/.git": true,
         "**/.svn": true,
         "**/.hg": true,
@@ -14,6 +30,5 @@
         "tsconfig.json": true,
         "**/public": true,
         "**/next.config.js": true
-    },
-    "explorerExclude.backup": null
+    }
 }
