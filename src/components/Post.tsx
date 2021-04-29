@@ -10,6 +10,7 @@ export type PostProps = {
     email: string;
   } | null;
   content: string;
+  authorId: number;
   published: boolean;
   // properties: any;
 };
