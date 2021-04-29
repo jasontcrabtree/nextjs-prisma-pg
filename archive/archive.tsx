@@ -1,8 +1,11 @@
+//
+
+/*
 import React from 'react';
 import { GetStaticProps } from 'next';
-import Layout from '../../components/Layout';
-import prisma from '../../lib/prisma';
-import Post, { PostProps } from '../../components/Post';
+import Layout from '../src/components/Layout';
+import prisma from '../src/lib/prisma';
+import Post, { PostProps } from '../src/components/Post';
 
 type Props = {
   feed: PostProps[];
@@ -46,3 +49,4 @@ const Blog: React.FC<Props> = ({ feed }) => (
   </Layout>
 );
 export default Blog;
+ */
