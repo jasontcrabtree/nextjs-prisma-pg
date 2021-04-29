@@ -58,14 +58,14 @@ model User {
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
+  id        Int     @id @default(autoincrement())
   title     String
   content   String?
-  published Boolean  @default(false)
-  authorId  Int?
-  profileId Int?
-  author    User?    @relation(fields: [authorId], references: [id])
-  profile   Profile? @relation(fields: [profileId], references: [id])
+  published Boolean @default(false)
+  authorId  Int
+  author    User?   @relation(fields: [authorId], references: [id])
+  // profileId Int?
+  // profile   Profile? @relation(fields: [profileId], references: [id])
 }
 
 model Profile {
@@ -73,7 +73,7 @@ model Profile {
   createdAt      DateTime @default(now()) @map("created_at")
   profilePicture String?
   bio            String?
-  authorId       Int?
-  user           User?    @relation(fields: [authorId], references: [id])
-  posts          Post[]
+  authorId       Int
+  user           User     @relation(fields: [authorId], references: [id])
+  // posts          Post[]
 }
