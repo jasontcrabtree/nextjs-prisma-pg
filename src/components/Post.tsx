@@ -93,6 +93,8 @@ export type PostProps = {
 
 // const Post2: <PostProps> = ({ post }) => {};
 
+// const List = <ItemType extends any>(props: { items: ItemType[]; renderItem: (item: ItemType) => React.ReactNode; }) => {
+
 // TODO: Remove FC
 const Post: React.FC<{ post: PostProps }> = ({ post }) => {
   // const { post } = props;

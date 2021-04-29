@@ -32,7 +32,7 @@ const Post = (props: PostProps) => {
   const router = useRouter();
 
   async function publishPost(id: number): Promise<void> {
-    await fetch(`http://localhost:3000/api/publish/${id}`, {
+    await fetch(`/api/publish/${id}`, {
       method: 'PUT',
     }).then(() => {
       router.push('/');
@@ -40,7 +40,7 @@ const Post = (props: PostProps) => {
   }
 
   async function deletePost(id: number): Promise<void> {
-    await fetch(`http://localhost:3000/api/post/${id}`, {
+    await fetch(`/api/post/${id}`, {
       method: 'DELETE',
     }).then(() => {
       router.push('/');
