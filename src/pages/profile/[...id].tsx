@@ -9,17 +9,12 @@ type Props = {
   // profile: any;
 };
 
-// export async function getStaticPaths() {
-//   return {
-//     paths: [
-//       // String variant:
-//       '1',
-//       // Object variant:
-//       { params: { slug: '2' } },
-//     ],
-//     fallback: true,
-//   };
-// }
+export async function getStaticPaths() {
+  return {
+    paths: [{ params: { id: '1' } }, { params: { id: '2' } }],
+    fallback: 1, // See the "fallback" section below
+  };
+}
 
 export const getStaticProps: GetStaticProps = async () => {
   const feed = await prisma.post.findMany({
