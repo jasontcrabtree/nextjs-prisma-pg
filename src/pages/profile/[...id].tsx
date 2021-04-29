@@ -12,7 +12,7 @@ type Props = {
 export async function getStaticPaths() {
   return {
     paths: [{ params: { id: '1' } }, { params: { id: '2' } }],
-    fallback: 1, // See the "fallback" section below
+    fallback: false, // See the "fallback" section below
   };
 }
 
