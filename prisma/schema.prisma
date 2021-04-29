@@ -2,17 +2,75 @@
 
 // npx prisma generate
 
+// schema.prisma file is comprised of some admin setup, generator and datasource, and data model definitions
+
+// Data model definition includes:
+// - Models: Defines fields and relationships between models
+// - Enum: Blocks of type-definitions
+// - Attributes and functions that change fields and models: e.g. unique, primary_key, autoincrement, etc.
+
+// ----------------------------- //
+// PRISMA CONFIG
+// ***************************** //
+
 generator client {
+  // Prisma client (frontend) setup
   provider      = "prisma-client-js"
+  // Prisma deploy contexts (Vercel/Netlify)
   binaryTargets = ["native", "debian-openssl-1.0.x"]
 }
 
 datasource db {
+  // Prisma DB type
   provider = "postgresql"
+  // Prisma DB access secret
   url      = env("DATABASE_URL")
 }
 
+// ----------------------------- //
+// DATA MODEL DEFINITIONS
+// ***************************** //
+
+// Model definition components:
+// FIELD NAME
+// FIELD TYPE
+// OPTIONAL MODIFIERS
+// OPTIONAL ATTRIBUTES
+
+// FIELD NAME DEFINITION
+// camelCase
+// Must start with a letter
+
+// FIELD TYPE DEFINITION
+// Field type determines its structure
+// Two categories, scalar types (subcategory, enum), and model types
+// - Scalar types map to columns in the database, e.g. string, int
+// - Model types map to other models, and then the field is a relation field
+//
+//
+
+// RELATION FIELDS
+// Every relation must have exactly two relation fields, one on each model. In case of 1-1 and 1-n relations, an additional relation scalar field is required which gets linked by one of the two relation fields in the @relation attribute. This relation scalar is the direct representation of the foreign key in the underlying database.
+
+model RelatedDemo {
+  relatedDemoId Int @id // relation scalar field (used in the `@relation` attribute of Demo)
+
+  demos Demo[]
+}
+
+model Demo {
+  authorId Int @id // relation scalar field (used in the `@relation` attribute below)
+
+  demo RelatedDemo @relation(fields: [authorId], references: [relatedDemoId])
+}
+
+//
+//
+//
+
 model test {
+  // Test model/table
+  // A single column marked as id, with content of string
   test_table String @id
 }
 
@@ -51,31 +109,51 @@ model Session {
 
 // Next-Auth [Users]
 model User {
-  id            Int       @id @default(autoincrement())
-  name          String?
-  email         String?   @unique
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime  @updatedAt @map("updated_at")
+  // ID --- number --- PRIMARY KEY --- defaults to db-level autoincrement/assignment
+  id Int @id @default(autoincrement())
+
+  // name --- string --- optional
+  name String?
+
+  // email --- string --- optional --- must be unique
+  email String? @unique
+
+  // userCreatedAt --- date & time --- defaults to account creation @now time --- @maps column name to PSQL preferred snake_case
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // userUpdatedAt --- date & time --- prisma client sets updated time if not provided --- @maps to snake_case
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // emailIsVerified --- date & time optional --- @maps to snake_case
   emailVerified DateTime? @map("email_verified")
-  image         String?
 
-  posts   Post[]
-  Profile Profile?
+  // image --- string --- optional
+  image String?
 
+  // posts fieldTYPE POST --- modifier [] makes the field a list
+  // fieldName: posts
+  // fieldType: postModelRelation
+  // modifier[]: List
+  posts Post[]
+
+  // profile fieldTYPE Profile --- optional
+  profile Profile?
+
+  // Maps the Prisma schema model name to a table with a different name, or an enum name to a different underlying enum in the database.
+  // e.g. model user to USERS table in PSQL
   @@map("users")
 }
 
 // Blog Post
 model Post {
-  id        Int     @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   title     String
   content   String?
-  published Boolean @default(false)
+  published Boolean  @default(false)
   authorId  Int
-  author    User    @relation(fields: [authorId], references: [id])
-  // author    User?    @relation(fields: [authorId], references: [id])
-  // Profile   Profile? @relation(fields: [profileId], references: [id])
-  // profileId Int
+  author    User     @relation(fields: [authorId], references: [id])
+  profile   Profile? @relation(fields: [profileId], references: [id])
+  profileId Int
 }
 
 model Profile {
@@ -83,7 +161,7 @@ model Profile {
   createdAt      DateTime @default(now()) @map("created_at")
   authorId       Int
   user           User     @relation(fields: [authorId], references: [id])
-  // posts          Post[]
   profilePicture String?
   bio            String?
+  posts          Post[]
 }

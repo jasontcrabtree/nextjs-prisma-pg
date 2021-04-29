@@ -2,6 +2,9 @@ import React from 'react';
 import Link from 'next/link';
 import { signOut, useSession, signIn } from 'next-auth/client';
 
+// const Header: React.FC<HeaderProps> = ({ id }) => {
+// function Drafts(HeaderProps) {
+
 const Header = () => {
   const [session, loading] = useSession();
 

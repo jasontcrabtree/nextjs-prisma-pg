@@ -1,0 +1,58 @@
+import React from 'react';
+import { GetStaticProps } from 'next';
+import Layout from '../../components/Layout';
+import prisma from '../../lib/prisma';
+import Post, { PostProps } from '../../components/Post';
+
+type Props = {
+  feed: PostProps[];
+  // profile: any;
+};
+
+// export async function getStaticPaths() {
+//   return {
+//     paths: [
+//       // String variant:
+//       '1',
+//       // Object variant:
+//       { params: { slug: '2' } },
+//     ],
+//     fallback: true,
+//   };
+// }
+
+export const getStaticProps: GetStaticProps = async () => {
+  const feed = await prisma.post.findMany({
+    where: { published: true },
+    include: {
+      author: {
+        select: { name: true },
+      },
+    },
+  });
+
+  // const profile = await prisma.profile.findMany({
+  //   where: { authorId: { equals: 2 } },
+  // });
+
+  return { props: { feed } };
+};
+
+// TODO: Remove FC
+const Blog: React.FC<Props> = ({ feed }) => (
+  // console.log(profile);
+
+  <Layout>
+    <section>
+      <h1>Public Feed</h1>
+    </section>
+    <section>
+      {feed.map((post) => (
+        <div key={post.id}>
+          <Post post={post} />
+        </div>
+      ))}
+    </section>
+  </Layout>
+);
+export default Blog;

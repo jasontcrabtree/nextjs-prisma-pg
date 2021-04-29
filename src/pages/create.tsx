@@ -13,7 +13,9 @@ const Draft = () => {
 
   const submitData = async (e: React.SyntheticEvent) => {
     e.preventDefault();
+
     console.log('Save');
+
     try {
       const body = { title, content };
       await fetch('/api/post', {
@@ -21,10 +23,12 @@ const Draft = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });
+
       console.log(body);
     } catch (error) {
       console.error(error);
     }
+
     router.push('/drafts');
   };
 

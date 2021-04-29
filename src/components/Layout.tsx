@@ -3,8 +3,10 @@ import Header from './Header';
 
 type Props = {
   children: ReactNode;
+  // Header: HeaderProps;
 };
 
+// TODO: Remove FC
 const Layout: React.FC<Props> = (props) => (
   <main>
     <Header />

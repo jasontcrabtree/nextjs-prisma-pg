@@ -1,6 +1,5 @@
 import React from 'react';
 import { GetStaticProps } from 'next';
-
 import Layout from '../components/Layout';
 import prisma from '../lib/prisma';
 import Post, { PostProps } from '../components/Post';
@@ -14,6 +13,15 @@ export const getStaticProps: GetStaticProps = async () => {
       },
     },
   });
+
+  // const test = await prisma.user.findMany({
+  //   where: {
+  //     author: {
+  //       author
+  //     }
+  //   }
+  // });
+
   return { props: { feed } };
 };
 
@@ -21,7 +29,8 @@ type Props = {
   feed: PostProps[];
 };
 
-const Blog: React.FC<Props> = ({ feed }) => (
+// TODO: Remove FC
+const Profile: React.FC<Props> = ({ feed }) => (
   <Layout>
     <section>
       <h1>Public Feed</h1>
@@ -36,4 +45,4 @@ const Blog: React.FC<Props> = ({ feed }) => (
   </Layout>
 );
 
-export default Blog;
+export default Profile;

@@ -81,6 +81,18 @@ export type PostProps = {
 // const Post: { post: PostProps } = ({ post }) => {
 
 // const Post = (props: PostProps) => {
+
+// const PostSm = (props: PostProps) => {};
+// const PostLg = ({ post: PostProps }) => {};
+
+// const Post = (props: PostProps) => {
+// const PostWithProps: React.FC<{ props: PostProps }> = (props) => {
+
+// let list: Array<number> = [1, 2, 3];
+
+// const Post2: <PostProps> = ({ post }) => {};
+
+// TODO: Remove FC
 const Post: React.FC<{ post: PostProps }> = ({ post }) => {
   // const { post } = props;
 

@@ -26,3 +26,12 @@ Because Prisma Client is tailored to your own schema, you need to update it ever
 - https://fettblog.eu/typescript-react/components/
 - https://nextjs.org/docs/api-reference/next/router
 - https://github.com/prisma/prisma/issues/5726
+
+## Prisma.schema research
+
+- Entity Relationship Diagram (ERD) is a graphical representation of entities and their relationships to each other. An entity represents a real world object, a piece of data that we want to model within our database.
+- Relationship model example
+- **Relationship**  |   **Notes**
+One-to-One	        |   A User has ONE address
+One-to-Many	        |   A Book has MANY reviews
+Many-to-Many        |	A user has MANY books and a book has MANY users

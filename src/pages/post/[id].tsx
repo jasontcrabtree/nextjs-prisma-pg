@@ -23,7 +23,11 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   };
 };
 
-const Post: React.FC<PostProps> = (props) => {
+// const Post: React.FC<PostProps> = (props) => {
+
+// TODO: Remove FC
+const Post = (props: PostProps) => {
+  // const Post: { PostProps: post } = (props) => {
   const [session, loading] = useSession();
   const router = useRouter();
 
@@ -48,6 +52,7 @@ const Post: React.FC<PostProps> = (props) => {
   const postBelongsToUser = session?.user?.email === props.author?.email;
 
   let { title } = props;
+
   if (!props.published) {
     title = `${title} (Draft)`;
   }
