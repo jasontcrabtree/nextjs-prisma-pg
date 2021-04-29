@@ -12,7 +12,7 @@ if (process.env.NODE_ENV === 'production') {
   prisma = global.prisma;
 }
 
-// export { };
+export {};
 
 /*
 const prismaClientPropertyName = `__prevent-name-collision__prisma`;

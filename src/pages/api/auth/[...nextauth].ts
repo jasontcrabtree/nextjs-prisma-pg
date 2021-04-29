@@ -11,7 +11,6 @@ const options = {
       clientSecret: process.env.GITHUB_SECRET,
     }),
   ],
-  // adapter: Adapters.Prisma.Adapter({ prisma }),
   adapter: Adapters.Prisma.Adapter({ prisma }),
   secret: process.env.SECRET,
 };
