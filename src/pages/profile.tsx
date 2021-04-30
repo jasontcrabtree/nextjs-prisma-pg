@@ -18,7 +18,7 @@ type Props = {
 };
 
 // TODO: Remove FC
-const Test: React.FC<Props> = ({ feed }) => {
+const Profile: React.FC<Props> = ({ feed }) => {
   console.log(feed);
   return (
     <Layout>
@@ -34,4 +34,4 @@ const Test: React.FC<Props> = ({ feed }) => {
   );
 };
 
-export default Test;
+export default Profile;

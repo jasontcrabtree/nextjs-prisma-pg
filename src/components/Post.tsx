@@ -114,8 +114,10 @@ const Post: React.FC<{ post: PostProps }> = ({ post }) => {
     // </div>
     <div className="postBox">
       {post.published ? null : 'Draft'}
-      <Link href={`/post/${post.id}`}>Link</Link>
-      <h2>{post.title}</h2>
+      <h2>
+        <Link href={`/draft-post/${post.id}`}>{post.title}</Link>
+      </h2>
+      {/* <h2>{post.title}</h2> */}
       <small>{authorName}</small>
       <ReactMarkdown>{post.content}</ReactMarkdown>
     </div>

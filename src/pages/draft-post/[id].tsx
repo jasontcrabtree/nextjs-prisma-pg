@@ -33,17 +33,17 @@ const Post = (props: PostProps) => {
 
   async function publishPost(id: number): Promise<void> {
     await fetch(`/api/publish/${id}`, {
-      method: 'PUT',
+      method: 'put',
     }).then(() => {
-      router.push('/');
+      router.push('/', undefined, { shallow: true });
     });
   }
 
   async function deletePost(id: number): Promise<void> {
     await fetch(`/api/post/${id}`, {
-      method: 'DELETE',
+      method: 'delete',
     }).then(() => {
-      router.push('/');
+      router.push('/', undefined, { shallow: true });
     });
   }
 

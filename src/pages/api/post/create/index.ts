@@ -13,7 +13,7 @@ IMPORTANT DETAILS-
 */
 
 import { getSession } from 'next-auth/client';
-import prisma from '../../../lib/prisma';
+import prisma from '../../../../lib/prisma';
 
 export default async function handle(req, res) {
   const { title, content } = req.body;
