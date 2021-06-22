@@ -7,7 +7,7 @@ import { PostProps } from '../components/Post';
 export const getServerSideProps: GetServerSideProps = async () => {
   const feed = await prisma.post.findMany({
     where: {
-      authorId: 2,
+      postProfileId: 2,
     },
   });
   return { props: { feed } };
@@ -19,15 +19,15 @@ type Props = {
 
 // TODO: Remove FC
 const Profile: React.FC<Props> = ({ feed }) => {
-  console.log(feed);
+  console.log('stay');
   return (
     <Layout>
       <section>
         <h1>Test</h1>
       </section>
       <section>
-        {feed.map((fee) => (
-          <div key={fee.id}>{fee.title}</div>
+        {feed.map((profileTest) => (
+          <div key={profileTest.postId}>{profileTest.title}</div>
         ))}
       </section>
     </Layout>

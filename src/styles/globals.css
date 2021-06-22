@@ -99,3 +99,12 @@ nav {
 nav > * {
   flex: 1;
 }
+
+label {
+  display: flex;
+  flex-direction: column;
+}
+
+input[type='text'] {
+  max-width: 24ch;
+}

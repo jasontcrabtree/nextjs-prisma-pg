@@ -12,112 +12,24 @@ export type PostProps = {
   content: string;
   authorId: number;
   published: boolean;
-  // properties: any;
+  postId: number;
+  postProfileId: number;
+  // profile: {
+  //   name: string;
+  //   email: string;
+  // } | null;
 };
-
-// function Drafts(props: Props) {
-// function Post: { post: PostProps } = ({ post }) => {
-
-// const Post1 = ({ post: PostProps }) => {
-//   const authorName = post.author ? post.author.name : 'Unknown author';
-//   return (
-//     <button
-//       type="button"
-//       onClick={() => Router.push('/p/[id]', `/p/${post.id}`)}
-//     >
-//       <h2>{post.title}</h2>
-//       <small>By {authorName}</small>
-//       <ReactMarkdown>{post.content}</ReactMarkdown>
-//     </button>
-//   );
-// };
-
-// const PostPage = ({
-//   post: { title, content, excerpt, slug }
-// }) =>
-
-// function name({ post}: PostProps) {
-
-// }
-
-// function Post({ post: PostProps }: post) {
-
-//   const authorName = post.author ? post.author.name : 'Unknown author';
-
-//   return (
-//     <button
-//       type="button"
-//       onClick={() => Router.push('/p/[id]', `/p/${post.id}`)}
-//     >
-//       <h2>{post.title}</h2>
-//       <small>By {authorName}</small>
-//       <ReactMarkdown>{post.content}</ReactMarkdown>
-//     </button>
-//   );
-// }
-
-// const Post = ({ post: PostProps } = ({ post }) => {
-
-/* const Post2 = (post: PostProps) => {
-
-
-  const authorName = post.author ? post.author.name : 'Unknown author';
-
-  return (
-    <button
-      type="button"
-      onClick={() => Router.push('/p/[id]', `/p/${post.id}`)}
-    >
-      <h2>{post.title}</h2>
-      <small>By {authorName}</small>
-      <ReactMarkdown>{post.content}</ReactMarkdown>
-    </button>
-  );
-}; */
-
-// const  Post = ({ post: PostProps }: PostProps }}) => {
-// function Post(post: PostProps) {
-// const Post = (post: PostProps) => {
-// const Post = ({ post }: { post: PostProps }<{}>) => {
-// const Post: { post: PostProps } = ({ post }) => {
-
-// const Post = (props: PostProps) => {
-
-// const PostSm = (props: PostProps) => {};
-// const PostLg = ({ post: PostProps }) => {};
-
-// const Post = (props: PostProps) => {
-// const PostWithProps: React.FC<{ props: PostProps }> = (props) => {
-
-// let list: Array<number> = [1, 2, 3];
-
-// const Post2: <PostProps> = ({ post }) => {};
-
-// const List = <ItemType extends any>(props: { items: ItemType[]; renderItem: (item: ItemType) => React.ReactNode; }) => {
 
 // TODO: Remove FC
 const Post: React.FC<{ post: PostProps }> = ({ post }) => {
-  // const { post } = props;
-
   const authorName = post.author ? post.author.name : 'Unknown author';
 
   return (
-    // <div>
-    //   <button
-    //     type="button"
-    //     onClick={() => Router.push('/p/[id]', `/p/${post.id}`)}
-    //   >
-    //     <h2>{post.title}</h2>
-    //     <small>By {authorName}</small>
-    //     <ReactMarkdown>{post.content}</ReactMarkdown>
-    //   </button>
-    // </div>
     <div className="postBox">
       {post.published ? null : 'Draft'}
       <h2>
-        <Link href={`/draft-post/${post.id}`}>{post.title}</Link>
+        <Link href={`/draft-post/${post.postId}`}>{post.title}</Link>
       </h2>
-      {/* <h2>{post.title}</h2> */}
       <small>{authorName}</small>
       <ReactMarkdown>{post.content}</ReactMarkdown>
     </div>

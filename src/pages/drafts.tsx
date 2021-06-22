@@ -31,11 +31,11 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   return { props: { drafts } };
 };
 
-type Props = {
+type DraftPostProps = {
   drafts: PostProps[];
 };
 
-function Drafts(props: Props) {
+function Drafts(props: DraftPostProps) {
   const [session] = useSession();
 
   console.log(props);
@@ -55,7 +55,7 @@ function Drafts(props: Props) {
         <h1>My Drafts</h1>
         <main>
           {props.drafts.map((post) => (
-            <div key={post.id} className="post">
+            <div key={post.postId} className="post">
               <Post post={post} />
             </div>
           ))}

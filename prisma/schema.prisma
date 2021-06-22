@@ -44,36 +44,77 @@ model Session {
 }
 
 model User {
-  id            Int       @id @default(autoincrement())
+  id            Int       @id @default(autoincrement()) // PK
   name          String?
   email         String?   @unique
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime  @updatedAt @map("updated_at")
   emailVerified DateTime? @map("email_verified")
   image         String?
-  posts         Post[]
-  profile       Profile[]
+
+  posts   Post[]   @relation("UserHasPosts") // FK
+  profile Profile? @relation("UserHasProfile") // FK
 
   @@map("users")
 }
 
-model Post {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean @default(false)
-  authorId  Int
-  author    User?   @relation(fields: [authorId], references: [id])
-  // profileId Int?
-  // profile   Profile? @relation(fields: [profileId], references: [id])
-}
-
 model Profile {
-  id             Int      @id @default(autoincrement())
+  profileId      Int      @id @default(autoincrement())
   createdAt      DateTime @default(now()) @map("created_at")
   profilePicture String?
   bio            String?
-  authorId       Int
-  user           User     @relation(fields: [authorId], references: [id])
-  // posts          Post[]
+
+  // One-to-one profile relationship
+  user User? @relation("UserHasProfile", fields: [profileId], references: [id]) // PK
+
+  // THINKING: Does the profile need to have posts? or should it be a hot potato where user is in the middle i.e.                profile ---- USER ---- posts
+
+
+  // One-to-many post relationship
+  posts Post[] @relation
+}
+
+model Post {
+  postId    Int     @id @default(autoincrement())
+  title     String
+  content   String?
+  published Boolean @default(false)
+
+  // Many-to-One author relationship
+  authorId Int? // local ref         // relationship ref
+  author   User? @relation("UserHasPosts", fields: [authorId], references: [id]) // PK
+
+  // Many-to-One profile relationship
+  postProfileId Int? // local ref        // relationship ref
+  profile       Profile? @relation(fields: [authorId], references: [profileId])
+
+  // Many-To-Many relatinship
+  // TODO > changed from many-to-many to one-to-many (post can have one category, category can be used on many posts)
+  // TODO > review
+  postCategoryId Int?
+  category       Category? @relation("CategoryOnPost", fields: [postCategoryId], references: [categoryId])
+}
+
+// post can have many comments & user/author can have many comments
+model Comment {
+  commentId Int @id @default(autoincrement())
+
+  @@map("comments")
+}
+
+// Post can have many categories
+// Category can be used on many posts
+
+// Post can have many categories
+// One post has a list of many categories
+// One category can be used on many posts
+// Category can be used on many post
+model Category {
+  categoryId Int @id @default(autoincrement())
+
+  categoryName String?
+
+  posts Post[] @relation("CategoryOnPost")
+
+  @@map("categories")
 }

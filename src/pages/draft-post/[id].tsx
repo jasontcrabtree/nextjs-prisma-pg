@@ -10,7 +10,7 @@ import prisma from '../../lib/prisma';
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const post = await prisma.post.findUnique({
     where: {
-      id: Number(params?.id) || -1,
+      postId: Number(params?.id) || -1,
     },
     include: {
       author: {
@@ -27,7 +27,6 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
 // TODO: Remove FC
 const Post = (props: PostProps) => {
-  // const Post: { PostProps: post } = (props) => {
   const [session, loading] = useSession();
   const router = useRouter();
 
@@ -49,6 +48,7 @@ const Post = (props: PostProps) => {
 
   const userHasValidSession = Boolean(session);
 
+  // TODO
   const postBelongsToUser = session?.user?.email === props.author?.email;
 
   let { title } = props;
@@ -68,12 +68,12 @@ const Post = (props: PostProps) => {
         <p>By {props?.author?.name || 'Unknown author'}</p>
         <ReactMarkdown>{props.content}</ReactMarkdown>
         {!props.published && userHasValidSession && postBelongsToUser && (
-          <button type="button" onClick={() => publishPost(props.id)}>
+          <button type="button" onClick={() => publishPost(props.postId)}>
             Publish
           </button>
         )}
         {userHasValidSession && postBelongsToUser && (
-          <button type="button" onClick={() => deletePost(props.id)}>
+          <button type="button" onClick={() => deletePost(props.postId)}>
             Delete
           </button>
         )}

@@ -8,8 +8,16 @@ export default async function handle(req, res) {
   const postId = req.query.id;
 
   const post = await prisma.post.update({
-    where: { id: Number(postId) },
-    data: { published: true },
+    where: { postId: Number(postId) },
+    data: {
+      published: true,
+      /*      profile: {
+        connect: {
+          // todo
+          profileId: 2,
+        },
+      }, */
+    },
   });
 
   res.json(post);

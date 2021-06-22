@@ -27,11 +27,12 @@ const Blog: React.FC<Props> = ({ feed }) => (
       <h1>Public Feed</h1>
     </section>
     <section>
+      {console.log(feed)}
       {feed
         .slice(0)
         .reverse()
         .map((post) => (
-          <div key={post.id}>
+          <div key={post.postId}>
             <Post post={post} />
           </div>
         ))}

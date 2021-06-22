@@ -8,8 +8,23 @@ const Draft = () => {
   // State defines the types for our state items (string)
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [category, setCategory] = useState('');
+
+  // const [itemName, setItemName] = useState('');
 
   const router = useRouter();
+
+  /*  const addCat = (event) => {
+    event.preventDefault();
+    setCategory([
+      ...category,
+      {
+        id: category.length,
+        name: itemName,
+      },
+    ]);
+    setItemName('');
+  }; */
 
   const submitData = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -17,13 +32,12 @@ const Draft = () => {
     console.log('Save');
 
     try {
-      const body = { title, content };
+      const body = { title, content, category };
       await fetch('/api/post/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });
-
       console.log(body);
     } catch (error) {
       console.error(error);
@@ -37,24 +51,39 @@ const Draft = () => {
       <div>
         <form onSubmit={submitData}>
           <h1>New Draft</h1>
-          <input
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Title"
-            type="text"
-            value={title}
-          />
-          <textarea
-            cols={64}
-            onChange={(e) => setContent(e.target.value)}
-            placeholder="Content"
-            rows={8}
-            value={content}
-          />
+          <label htmlFor="title">
+            Title
+            <input
+              name="title"
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Title"
+              type="text"
+              value={title}
+            />
+          </label>
+          <label htmlFor="category">
+            Category
+            <input
+              name="category"
+              placeholder="Category"
+              onChange={(e) => setCategory(e.target.value)}
+              type="text"
+              value={category}
+            />
+          </label>
+          <label htmlFor="content">
+            Content
+            <textarea
+              name="content"
+              cols={64}
+              onChange={(e) => setContent(e.target.value)}
+              placeholder="Content"
+              rows={8}
+              value={content}
+            />
+          </label>
           <input disabled={!content || !title} type="submit" value="Create" />
-          {/* <a className="back" href="#" onClick={() => router.push('/')}>
-            or Cancel
-          </a> */}
-          <Link href="/">Cancel</Link>
+          <Link href="/">Delete draft</Link>
         </form>
       </div>
     </Layout>
