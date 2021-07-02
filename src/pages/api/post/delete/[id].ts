@@ -4,7 +4,10 @@ export default async function handle(req, res) {
   const postId = req.query.id;
   if (req.method === 'DELETE') {
     const post = await prisma.post.delete({
-      where: { id: Number(postId) },
+      // where: { id: Number(postId) },
+      where: {
+        postId: Number(postId),
+      },
     });
     res.json(post);
   } else {
