@@ -81,7 +81,7 @@ model Post {
   published Boolean @default(false)
 
   // Many-to-One author relationship
-  authorId Int? // local ref         // relationship ref
+  authorId Int?                         // local ref         // relationship ref
   author   User? @relation("UserHasPosts", fields: [authorId], references: [id]) // PK
 
   // Many-to-One profile relationship
@@ -112,9 +112,14 @@ model Comment {
 model Category {
   categoryId Int @id @default(autoincrement())
 
-  categoryName String?
+  category String?
 
   posts Post[] @relation("CategoryOnPost")
 
   @@map("categories")
+}
+
+model Synopsis {
+  synopsisID Int @id @default(autoincrement())
+  text String?
 }

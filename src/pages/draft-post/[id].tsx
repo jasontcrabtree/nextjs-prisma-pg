@@ -16,6 +16,16 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
       author: {
         select: { name: true, email: true },
       },
+      category: {
+        select: {
+          category: true,
+        },
+      },
+      profile: {
+        select: {
+          bio: true,
+        },
+      },
     },
   });
   return {
@@ -27,6 +37,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
 // TODO: Remove FC
 const Post = (props: PostProps) => {
+  console.log(props);
   const [session, loading] = useSession();
   const router = useRouter();
 
@@ -53,6 +64,8 @@ const Post = (props: PostProps) => {
 
   let { title } = props;
 
+  console.log(props);
+
   if (!props.published) {
     title = `${title} (Draft)`;
   }
@@ -64,6 +77,7 @@ const Post = (props: PostProps) => {
   return (
     <Layout>
       <div>
+        <span>{props.category.category}</span>
         <h2>{title}</h2>
         <p>By {props?.author?.name || 'Unknown author'}</p>
         <ReactMarkdown>{props.content}</ReactMarkdown>

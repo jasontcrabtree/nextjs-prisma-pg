@@ -18,11 +18,7 @@ import prisma from '../../../../lib/prisma';
 export default async function handle(req, res) {
   const { title, content, category } = req.body;
 
-  console.log(category);
-
   const session = await getSession({ req });
-
-  console.log(req.body);
 
   const result = await prisma.post.create({
     data: {
@@ -30,8 +26,14 @@ export default async function handle(req, res) {
       content,
       author: { connect: { email: session?.user?.email } },
       category: {
-        create: [{ categoryName: 'dev' }, { categoryName: 'prisma' }],
+        create: {
+          category: category,
+        },
       },
+
+      // category: {
+      //   create: [{ categoryName: 'dev' }, { categoryName: 'prisma' }],
+      // },
       // creates author of email
       // profile: { connect: { email: session?.user?.email } },
       /* profile: {

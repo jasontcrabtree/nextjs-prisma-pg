@@ -16,6 +16,16 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     return { props: { drafts: [] } };
   }
 
+  const post = await prisma.post.findMany({
+    where: {
+      author: {
+        email: session.user.email,
+      },
+    },
+  });
+
+  console.log('term', post);
+
   // Return drafts associated with the author session email
   const drafts = await prisma.post.findMany({
     where: {
@@ -54,7 +64,7 @@ function Drafts(props: DraftPostProps) {
       <div className="page">
         <h1>My Drafts</h1>
         <main>
-          {props.drafts.map((post) => (
+          {props.drafts.map(post => (
             <div key={post.postId} className="post">
               <Post post={post} />
             </div>

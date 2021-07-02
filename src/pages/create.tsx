@@ -28,21 +28,20 @@ const Draft = () => {
 
   const submitData = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-
     console.log('Save');
-
     try {
       const body = { title, content, category };
+
       await fetch('/api/post/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });
+
       console.log(body);
     } catch (error) {
       console.error(error);
     }
-
     router.push('/drafts');
   };
 
@@ -55,7 +54,7 @@ const Draft = () => {
             Title
             <input
               name="title"
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={e => setTitle(e.target.value)}
               placeholder="Title"
               type="text"
               value={title}
@@ -66,7 +65,7 @@ const Draft = () => {
             <input
               name="category"
               placeholder="Category"
-              onChange={(e) => setCategory(e.target.value)}
+              onChange={e => setCategory(e.target.value)}
               type="text"
               value={category}
             />
@@ -75,10 +74,10 @@ const Draft = () => {
             Content
             <textarea
               name="content"
-              cols={64}
-              onChange={(e) => setContent(e.target.value)}
+              cols={96}
+              onChange={e => setContent(e.target.value)}
               placeholder="Content"
-              rows={8}
+              rows={4}
               value={content}
             />
           </label>

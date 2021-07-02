@@ -7,7 +7,7 @@ type Props = {
 };
 
 // TODO: Remove FC
-const Layout: React.FC<Props> = (props) => (
+const Layout: React.FC<Props> = props => (
   <main>
     <Header />
     <div className="layout">{props.children}</div>

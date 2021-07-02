@@ -14,6 +14,9 @@ export type PostProps = {
   published: boolean;
   postId: number;
   postProfileId: number;
+  categoryName: any;
+  category: any;
+
   // profile: {
   //   name: string;
   //   email: string;
@@ -24,13 +27,15 @@ export type PostProps = {
 const Post: React.FC<{ post: PostProps }> = ({ post }) => {
   const authorName = post.author ? post.author.name : 'Unknown author';
 
+  console.log(post);
+
   return (
     <div className="postBox">
       {post.published ? null : 'Draft'}
       <h2>
         <Link href={`/draft-post/${post.postId}`}>{post.title}</Link>
       </h2>
-      <small>{authorName}</small>
+      <p>{authorName}</p>
       <ReactMarkdown>{post.content}</ReactMarkdown>
     </div>
   );

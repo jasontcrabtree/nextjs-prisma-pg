@@ -3,8 +3,28 @@ import { GetServerSideProps } from 'next';
 import Layout from '../components/Layout';
 import prisma from '../lib/prisma';
 import { PostProps } from '../components/Post';
+import { getSession } from 'next-auth/client';
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const session = await getSession({ req });
+
+  /*   const profile = await prisma.profile.create({
+    // include: {
+    //   user: {
+    //     select: {
+    //       email:
+    //     }
+    //   }
+    // },
+    // author: { connect: { email: session?.user?.email } },
+    select: {
+      user: {
+        include: {
+          profile: session.user
+        }
+      }
+    }
+  }); */
   const feed = await prisma.post.findMany({
     where: {
       postProfileId: 2,
@@ -26,7 +46,7 @@ const Profile: React.FC<Props> = ({ feed }) => {
         <h1>Test</h1>
       </section>
       <section>
-        {feed.map((profileTest) => (
+        {feed.map(profileTest => (
           <div key={profileTest.postId}>{profileTest.title}</div>
         ))}
       </section>
