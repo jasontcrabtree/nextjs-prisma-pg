@@ -8,6 +8,8 @@ import { getSession } from 'next-auth/client';
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const session = await getSession({ req });
 
+  console.log(session);
+
   /*   const profile = await prisma.profile.create({
     // include: {
     //   user: {
