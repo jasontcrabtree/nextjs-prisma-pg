@@ -22,6 +22,9 @@ Because Prisma Client is tailored to your own schema, you need to update it ever
 
 `npx prisma generate`
 
+Re: Migrations - https://github.com/prisma/prisma/issues/4571#issuecomment-754650296
+Run - `npx prisma db push`
+
 ## Reference articles
 
 - https://fettblog.eu/typescript-react-why-i-dont-use-react-fc/
@@ -38,3 +41,7 @@ Because Prisma Client is tailored to your own schema, you need to update it ever
   One-to-One | A User has ONE address
   One-to-Many | A Book has MANY reviews
   Many-to-Many | A user has MANY books and a book has MANY users
+
+## Prisma Key Docs
+
+- Prisma related queries https://www.prisma.io/docs/concepts/components/prisma-client/crud#include-related-records

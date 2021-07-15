@@ -27,7 +27,7 @@ export type PostProps = {
 const Post: React.FC<{ post: PostProps }> = ({ post }) => {
   const authorName = post.author ? post.author.name : 'Unknown author';
 
-  console.log(post);
+  // console.log(post);
 
   return (
     <div className="postBox">

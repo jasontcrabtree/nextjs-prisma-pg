@@ -1,32 +1,13 @@
 import React from 'react';
 import { GetServerSideProps } from 'next';
+import { getSession } from 'next-auth/client';
 import Layout from '../components/Layout';
 import prisma from '../lib/prisma';
 import { PostProps } from '../components/Post';
-import { getSession } from 'next-auth/client';
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const session = await getSession({ req });
 
-  console.log(session);
-
-  /*   const profile = await prisma.profile.create({
-    // include: {
-    //   user: {
-    //     select: {
-    //       email:
-    //     }
-    //   }
-    // },
-    // author: { connect: { email: session?.user?.email } },
-    select: {
-      user: {
-        include: {
-          profile: session.user
-        }
-      }
-    }
-  }); */
   const feed = await prisma.post.findMany({
     where: {
       postProfileId: 2,
@@ -41,14 +22,14 @@ type Props = {
 
 // TODO: Remove FC
 const Profile: React.FC<Props> = ({ feed }) => {
-  console.log('stay');
+  console.log(feed);
   return (
     <Layout>
       <section>
         <h1>Test</h1>
       </section>
       <section>
-        {feed.map(profileTest => (
+        {feed.map((profileTest) => (
           <div key={profileTest.postId}>{profileTest.title}</div>
         ))}
       </section>

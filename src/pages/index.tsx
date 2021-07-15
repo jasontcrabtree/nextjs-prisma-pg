@@ -30,7 +30,7 @@ const Blog: React.FC<Props> = ({ feed }) => (
       {feed
         .slice(0)
         .reverse()
-        .map(post => (
+        .map((post) => (
           <div key={post.postId}>
             <Post post={post} />
           </div>

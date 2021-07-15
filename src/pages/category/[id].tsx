@@ -1,16 +1,27 @@
 import { GetServerSideProps } from 'next';
 import { getSession, useSession } from 'next-auth/client';
-import router from 'next/router';
-import React from 'react';
-import Layout from '../components/Layout';
+import React, { useState } from 'react';
+import Layout from '../../components/Layout';
 
-import Post, { PostProps } from '../components/Post';
-import prisma from '../lib/prisma';
+import Post, { PostProps } from '../../components/Post';
+import prisma from '../../lib/prisma';
 
 // Server side API call requesting session and drafts
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  res,
+  params,
+}) => {
   // Get the current session
   const session = await getSession({ req });
+
+  console.log('hey', params.id);
+
+  // setUrlParams(params.id);
+
+  console.log(params.id);
+
+  const categoryParamsDynamicRoute = params.id;
 
   if (!session) {
     res.statusCode = 403;
@@ -27,6 +38,27 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 
   // console.log('term', post);
 
+  const postWithCategoryPassed = await prisma.post.findMany({
+    where: {
+      author: { email: session.user.email },
+      // published: false,
+      // AND: {
+      //   category: {},
+      // },
+      published: true,
+      // OR: [
+      //   {
+      //     category: { contains: categoryParamsDynamicRoute },
+      //   },
+      // ],
+      // category: {
+      //   category: {
+      //     equals: categoryParamsDynamicRoute,
+      //   },
+      // },
+    },
+  });
+
   // Return drafts associated with the author session email
   const drafts = await prisma.post.findMany({
     where: {
@@ -39,6 +71,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
       },
     },
   });
+
   return { props: { drafts } };
 };
 
@@ -48,6 +81,7 @@ type DraftPostProps = {
 
 function Drafts(props: DraftPostProps) {
   const [session] = useSession();
+
   if (!session) {
     return (
       <Layout>
@@ -60,13 +94,13 @@ function Drafts(props: DraftPostProps) {
   return (
     <Layout>
       <div className="page">
-        <h1>My Drafts</h1>
+        <h1>Hey</h1>
         <main>
-          {props.drafts.map((post) => (
+          {/* {props.drafts.map(post => (
             <div key={post.postId} className="post">
               <Post post={post} />
             </div>
-          ))}
+          ))} */}
         </main>
       </div>
     </Layout>

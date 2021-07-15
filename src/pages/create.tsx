@@ -54,7 +54,7 @@ const Draft = () => {
             Title
             <input
               name="title"
-              onChange={e => setTitle(e.target.value)}
+              onChange={(e) => setTitle(e.target.value)}
               placeholder="Title"
               type="text"
               value={title}
@@ -65,7 +65,7 @@ const Draft = () => {
             <input
               name="category"
               placeholder="Category"
-              onChange={e => setCategory(e.target.value)}
+              onChange={(e) => setCategory(e.target.value)}
               type="text"
               value={category}
             />
@@ -75,7 +75,7 @@ const Draft = () => {
             <textarea
               name="content"
               cols={96}
-              onChange={e => setContent(e.target.value)}
+              onChange={(e) => setContent(e.target.value)}
               placeholder="Content"
               rows={4}
               value={content}

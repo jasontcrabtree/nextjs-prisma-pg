@@ -37,7 +37,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
 // TODO: Remove FC
 const Post = (props: PostProps) => {
-  console.log(props);
+  // console.log(props);
   const [session, loading] = useSession();
   const router = useRouter();
 
@@ -64,7 +64,7 @@ const Post = (props: PostProps) => {
 
   let { title } = props;
 
-  console.log(props);
+  // console.log(props);
 
   if (!props.published) {
     title = `${title} (Draft)`;
@@ -74,12 +74,18 @@ const Post = (props: PostProps) => {
     return <div>Authenticating ...</div>;
   }
 
+  console.log(props);
+
   return (
     <Layout>
       <div>
-        <span>{props.category.category}</span>
+        {/* <span>{props.category.category}</span> */}
         <h2>{title}</h2>
-        <p>By {props?.author?.name || 'Unknown author'}</p>
+        <p>
+          By
+          {props?.author?.name || 'Unknown author'}
+        </p>
+        <p>{props?.category?.category}</p>
         <ReactMarkdown>{props.content}</ReactMarkdown>
         {!props.published && userHasValidSession && postBelongsToUser && (
           <button type="button" onClick={() => publishPost(props.postId)}>
