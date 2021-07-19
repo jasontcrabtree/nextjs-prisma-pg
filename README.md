@@ -24,6 +24,7 @@ Because Prisma Client is tailored to your own schema, you need to update it ever
 
 Re: Migrations - https://github.com/prisma/prisma/issues/4571#issuecomment-754650296
 Run - `npx prisma db push`
+RUN THIS: https://www.prisma.io/docs/concepts/components/prisma-migrate/db-push
 
 ## Reference articles
 

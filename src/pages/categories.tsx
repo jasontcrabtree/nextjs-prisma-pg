@@ -55,11 +55,7 @@ type CategoriesProps = {
 function Categories(props: CategoriesProps) {
   const [session] = useSession();
 
-  // console.log(props);
-
   console.log(props);
-
-  const { categories } = props;
 
   if (!session) {
     return (

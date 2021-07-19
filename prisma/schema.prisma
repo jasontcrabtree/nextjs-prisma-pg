@@ -124,3 +124,13 @@ model Synopsis {
   synopsisID Int @id @default(autoincrement())
   text String?
 }
+
+model BookReview {
+  bookReviewID Int @id @default(autoincrement())
+  bookTitle String
+  reviewTitle String?
+  reviewBody String?
+  rating Int?
+  recommended Boolean?
+  author String?
+}
