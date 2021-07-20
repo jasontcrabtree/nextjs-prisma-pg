@@ -1,10 +1,9 @@
 import Layout from '../components/Layout';
 import prisma from '../lib/prisma';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-
-type Props = {};
+import { GetServerSideProps } from 'next';
 
 /*
   TODO
@@ -44,8 +43,40 @@ function helloWorld(person: string): void {
  */
 // const bookReview = await prisma.bookReview.create({})
 
-const CrudActions: React.FC<Props> = () => {
+type Props = {
+  bookReviews: any;
+  response: any;
+};
+
+// export const getServerSideProps: GetServerSideProps = async () => {
+//   const res = await fetch('/api/book-review/read');
+
+//   const response = res.json;
+
+//   return {
+//     props: {
+//       response,
+//     },
+//   };
+// };
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  // const bookReviews = await prisma.bookReview.findMany();
+  // return { props: { bookReviews } };
+
+  const res = await fetch('http://localhost:3000/api/book-review/read');
+  const bookReviews = await res.json();
+  return {
+    props: { bookReviews },
+  };
+};
+
+const CrudActions: React.FC<Props> = ({ bookReviews }) => {
   helloWorld('Jason');
+
+  const reviews = bookReviews;
+
+  console.log(reviews);
 
   const [bookTitle, setBookTitle] = useState('');
   const [reviewTitle, setReviewTitle] = useState('');
@@ -69,7 +100,7 @@ const CrudActions: React.FC<Props> = () => {
         author,
       };
 
-      await fetch('/api/bookReview/create', {
+      await fetch('/api/book-review/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
@@ -82,6 +113,13 @@ const CrudActions: React.FC<Props> = () => {
     router.push('/');
   };
 
+  // useEffect((): any => {
+  //   const res = fetch('/api/book-review/read');
+  //   return () => {
+  //     res;
+  //   };
+  // }, []);
+
   return (
     <Layout>
       <section>
@@ -90,9 +128,27 @@ const CrudActions: React.FC<Props> = () => {
           Typescript
         </h1>
       </section>
+      <section className="reviews-list__wrapper">
+        <h2>Past Reviews</h2>
+        <ul>
+          {reviews.map((review) => {
+            return (
+              <li key={review.bookReviewID}>
+                <h3>
+                  {review.reviewTitle} — <span>{review.rating} Stars</span>
+                </h3>
+                <p>
+                  {review.bookTitle} by {review.author}
+                </p>
+                <p>{review.reviewBody}</p>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
       <section>
-        <form onSubmit={submitData}>
-          <h1>Book Review</h1>
+        <h2>New Review</h2>
+        <form onSubmit={submitData} className="review-form__wrapper">
           <label htmlFor="bookTitle">
             Book Title
             <input
@@ -142,7 +198,7 @@ const CrudActions: React.FC<Props> = () => {
               onChange={(e) => setRecommended(e.target.defaultChecked)}
             />
           </label>
-          <label htmlFor="reviewBody">
+          <label htmlFor="reviewBody" className="review-form__body-input">
             Review
             <textarea
               name="reviewBody"
