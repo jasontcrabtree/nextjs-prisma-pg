@@ -15,6 +15,8 @@ IMPORTANT DETAILS-
 // import { getSession } from 'next-auth/client';
 import prisma from '../../../../lib/prisma';
 
+const db = prisma;
+
 export default async function handle(req, res) {
   console.log(req);
   const { bookTitle, reviewTitle, reviewBody, recommended, rating, author } =
@@ -22,7 +24,7 @@ export default async function handle(req, res) {
 
   //   const session = await getSession({ req });
 
-  const result = await prisma.bookReview.create({
+  const bookReview = await db.bookReview.create({
     data: {
       bookTitle,
       reviewTitle,
@@ -32,5 +34,6 @@ export default async function handle(req, res) {
       author,
     },
   });
-  res.json(result);
+
+  res.json(bookReview);
 }
