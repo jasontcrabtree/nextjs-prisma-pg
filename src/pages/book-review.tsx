@@ -1,5 +1,6 @@
 import Layout from '../components/Layout';
-import { useState } from 'react';
+import prisma from '../lib/prisma';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { GetServerSideProps } from 'next';
@@ -63,7 +64,9 @@ export const getServerSideProps: GetServerSideProps = async () => {
   // const bookReviews = await prisma.bookReview.findMany();
   // return { props: { bookReviews } };
 
-  const res = await fetch('/api/book-review/read');
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/book-review/read`,
+  );
 
   const bookReviews = await res.json();
   return {
