@@ -15,6 +15,7 @@ const Header = () => {
       <Link href="/profile">Profile</Link>
       <Link href="/create">New post</Link>
       <Link href="/categories">Categories</Link>
+      <Link href="/book-review">Book Reviews</Link>
 
       {loading ? (
         <div>Loading</div>
