@@ -77,7 +77,11 @@ export const getServerSideProps: GetServerSideProps = async () => {
 const CrudActions: React.FC<Props> = ({ bookReviews }) => {
   helloWorld('Jason');
 
-  const reviews = bookReviews;
+  // const reviews = bookReviews;
+
+  const [reviews, setReviews] = useState(bookReviews);
+
+  console.log(reviews);
 
   console.log(reviews);
 
@@ -90,7 +94,7 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
 
   const router = useRouter();
 
-  const submitData = async (e: React.SyntheticEvent) => {
+  const submitBookReview = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     console.log('Save');
     try {
@@ -113,8 +117,17 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
     } catch (error) {
       console.error(error);
     }
-    router.push('/');
+    // router.push('/');
   };
+
+  async function deleteReview(id: number): Promise<void> {
+    await fetch(`/api/book-review/delete/${id}`, {
+      method: 'delete',
+    });
+    // .then(() => {
+    //   router.push('/', undefined, { shallow: true });
+    // });
+  }
 
   // useEffect((): any => {
   //   const res = fetch('/api/book-review/read');
@@ -141,9 +154,16 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
                   {review.reviewTitle} — <span>{review.rating} Stars</span>
                 </h3>
                 <p>
-                  {review.bookTitle} by {review.author}
+                  {review.bookTitle} by {review.author} |{' '}
+                  {review.recommended ? 'Ya' : 'Na'}
                 </p>
                 <p>{review.reviewBody}</p>
+                <button
+                  type="button"
+                  onClick={() => deleteReview(review.bookReviewID)}
+                >
+                  Delete
+                </button>
               </li>
             );
           })}
@@ -151,13 +171,13 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
       </section>
       <section>
         <h2>New Review</h2>
-        <form onSubmit={submitData} className="review-form__wrapper">
+        <form onSubmit={submitBookReview} className="review-form__wrapper">
           <label htmlFor="bookTitle">
             Book Title
             <input
               name="bookTitle"
               onChange={(e) => setBookTitle(e.target.value)}
-              placeholder="bookTitle"
+              placeholder="Book Title"
               type="text"
               value={bookTitle}
             />
@@ -192,15 +212,32 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
               onChange={(e) => setRating(e.target.valueAsNumber)}
             />
           </label>
-          <label htmlFor="recommended">
+          {/* <label htmlFor="recommended">
             Recommended
             <input
+              className="review-form__cbox-input"
               type="checkbox"
               name="recommended"
               id="recommended"
               onChange={(e) => setRecommended(e.target.defaultChecked)}
             />
-          </label>
+          </label> */}
+          <div>
+            <label htmlFor="recommended">Recommended</label>
+            <input
+              type="radio"
+              name="recommendation"
+              id="recommended"
+              onChange={(e) => setRecommended(e.target.checked)}
+            />
+            <label htmlFor="not-recommended">Not Recommended</label>
+            <input
+              type="radio"
+              name="recommendation"
+              id="not-recommended"
+              onChange={(e) => setRecommended(!e.target.checked)}
+            />
+          </div>
           <label htmlFor="reviewBody" className="review-form__body-input">
             Review
             <textarea
