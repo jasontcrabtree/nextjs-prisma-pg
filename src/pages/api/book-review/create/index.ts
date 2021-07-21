@@ -18,10 +18,10 @@ import prisma from '../../../../lib/prisma';
 const db = prisma;
 
 export default async function handle(req, res) {
-  console.log(req);
+  console.log(req.body);
+
   const { bookTitle, reviewTitle, reviewBody, recommended, rating, author } =
     req.body;
-
   //   const session = await getSession({ req });
 
   const bookReview = await db.bookReview.create({

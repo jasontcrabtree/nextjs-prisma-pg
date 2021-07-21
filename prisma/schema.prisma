@@ -130,7 +130,7 @@ model BookReview {
   bookTitle String
   reviewTitle String?
   reviewBody String?
-  rating Int?
+  rating Decimal?
   recommended Boolean?
   author String?
 }
