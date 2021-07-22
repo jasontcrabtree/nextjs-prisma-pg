@@ -127,6 +127,9 @@ model Synopsis {
 
 model BookReview {
   bookReviewID Int @id @default(autoincrement())
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
   bookTitle String
   reviewTitle String?
   reviewBody String?
