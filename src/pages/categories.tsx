@@ -34,10 +34,10 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 
   /* TODO: Can we filter author by post author id? */
   const categories = await prisma.post.findMany({
-    where: {
-      // postCategoryId: 9,
-      authorId: 2,
-    },
+    // where: {
+    //   // postCategoryId: 9,
+    //   authorId: any,
+    // },
     // include related records in query
     // https://www.prisma.io/docs/concepts/components/prisma-client/crud#include-related-records
     include: {

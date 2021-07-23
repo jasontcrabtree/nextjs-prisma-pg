@@ -90,7 +90,7 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
   const [reviewBody, setReviewBody] = useState('');
   const [recommended, setRecommended] = useState(false);
   const [rating, setRating] = useState(0);
-  const [author, setAuthor] = useState('');
+  const [bookAuthor, setBookAuthor] = useState('');
   const [editReview, setEditReview] = useState(false);
 
   const router = useRouter();
@@ -105,7 +105,7 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
         reviewBody,
         recommended,
         rating,
-        author,
+        bookAuthor,
       };
 
       await fetch('/api/book-review/create', {
@@ -193,7 +193,7 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
                   </button>
                 </h3>
                 <p className="reviews-list__item-subhead">
-                  {review.bookTitle} by {review.author} |{' '}
+                  {review.bookTitle} by {review.bookAuthor} |{' '}
                   {review.recommended ? <HiStar /> : 'Na'}
                 </p>
                 <p>{review.reviewBody}</p>
@@ -215,14 +215,14 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
               value={bookTitle}
             />
           </label>
-          <label htmlFor="author">
+          <label htmlFor="bookAuthor">
             Author
             <input
-              name="author"
-              onChange={(e) => setAuthor(e.target.value)}
+              name="bookAuthor"
+              onChange={(e) => setBookAuthor(e.target.value)}
               placeholder="Author"
               type="text"
-              value={author}
+              value={bookAuthor}
             />
           </label>
           <label htmlFor="reviewTitle">
