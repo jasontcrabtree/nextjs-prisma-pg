@@ -67,8 +67,7 @@ model Profile {
   // One-to-one profile relationship
   user User? @relation("UserHasProfile", fields: [profileId], references: [id]) // PK
 
-  // THINKING: Does the profile need to have posts? or should it be a hot potato where user is in the middle i.e.                profile ---- USER ---- posts
-
+  // THINKING: Does the profile need to have posts? or should it be a hot potato where user is in the middle i.e. profile ---- USER ---- posts
 
   // One-to-many post relationship
   posts Post[] @relation
@@ -81,12 +80,12 @@ model Post {
   published Boolean @default(false)
 
   // Many-to-One author relationship
-  authorId Int?                         // local ref         // relationship ref
   author   User? @relation("UserHasPosts", fields: [authorId], references: [id]) // PK
+  authorId Int?                      // local ref         // relationship ref
 
   // Many-to-One profile relationship
   postProfileId Int? // local ref        // relationship ref
-  profile       Profile? @relation(fields: [authorId], references: [profileId])
+  profile       Profile? @relation(fields: [postProfileId], references: [profileId])
 
   // Many-To-Many relatinship
   // TODO > changed from many-to-many to one-to-many (post can have one category, category can be used on many posts)
@@ -127,10 +126,13 @@ model Synopsis {
 
 model BookReview {
   bookReviewID Int @id @default(autoincrement())
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
   bookTitle String
   reviewTitle String?
   reviewBody String?
   rating Decimal?
   recommended Boolean?
-  author String?
+  bookAuthor String?
 }

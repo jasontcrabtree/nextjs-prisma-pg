@@ -20,8 +20,14 @@ const db = prisma;
 export default async function handle(req, res) {
   console.log(req.body);
 
-  const { bookTitle, reviewTitle, reviewBody, recommended, rating, author } =
-    req.body;
+  const {
+    bookTitle,
+    reviewTitle,
+    reviewBody,
+    recommended,
+    rating,
+    bookAuthor,
+  } = req.body;
   //   const session = await getSession({ req });
 
   const bookReview = await db.bookReview.create({
@@ -31,7 +37,7 @@ export default async function handle(req, res) {
       reviewBody,
       recommended,
       rating,
-      author,
+      bookAuthor,
     },
   });
 

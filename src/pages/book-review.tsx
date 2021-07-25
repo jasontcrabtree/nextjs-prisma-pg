@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { GetServerSideProps } from 'next';
+import { FiTrash2 } from 'react-icons/fi';
+import { HiPencil, HiStar } from 'react-icons/hi';
 
 /*
   TODO
@@ -75,22 +77,21 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 const CrudActions: React.FC<Props> = ({ bookReviews }) => {
-  helloWorld('Jason');
+  // helloWorld('Jason');
 
-  // const reviews = bookReviews;
+  const reviews = bookReviews;
 
-  const [reviews, setReviews] = useState(bookReviews);
+  // const [reviews, setReviews] = useState(bookReviews);
 
-  console.log(reviews);
-
-  console.log(reviews);
+  // console.log(reviews);
 
   const [bookTitle, setBookTitle] = useState('');
   const [reviewTitle, setReviewTitle] = useState('');
   const [reviewBody, setReviewBody] = useState('');
   const [recommended, setRecommended] = useState(false);
   const [rating, setRating] = useState(0);
-  const [author, setAuthor] = useState('');
+  const [bookAuthor, setBookAuthor] = useState('');
+  const [editReview, setEditReview] = useState(false);
 
   const router = useRouter();
 
@@ -104,7 +105,7 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
         reviewBody,
         recommended,
         rating,
-        author,
+        bookAuthor,
       };
 
       await fetch('/api/book-review/create', {
@@ -129,6 +130,22 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
     // });
   }
 
+  /*
+  1. Figure out which review has been clicked to edit
+  2. Give the user a way to change editable fields
+  3. Capture the changes to fields
+  4. Submit the new values to the update function
+  5. Refresh the displayed values
+  6. Lock editing until options again until needed
+  */
+
+  async function updateReview(id: number): Promise<void> {
+    console.log(id);
+    await fetch(`/api/book-review/update/${id}`, {
+      method: 'post',
+    });
+  }
+
   // useEffect((): any => {
   //   const res = fetch('/api/book-review/read');
   //   return () => {
@@ -146,24 +163,40 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
       </section>
       <section className="reviews-list__wrapper">
         <h2>Past Reviews</h2>
-        <ul>
+        <ul className="reviews-list__list-parent">
           {reviews.map((review) => {
-            return (
-              <li key={review.bookReviewID}>
-                <h3>
-                  {review.reviewTitle} — <span>{review.rating} Stars</span>
+            console.log(review);
+
+            return editReview ? (
+              <div>Edit time!</div>
+            ) : (
+              <li
+                className="reviews-list__item-wrapper"
+                key={review.bookReviewID}
+              >
+                <h3 className="reviews-list__item-title">
+                  {review.reviewTitle} <span>{review.rating} Stars</span>
+                  <button
+                    className="btn--icon-only"
+                    type="button"
+                    onClick={() => deleteReview(review.bookReviewID)}
+                  >
+                    <FiTrash2 className="btn__feather-icon" />
+                  </button>
+                  <button
+                    className="btn--icon-only"
+                    type="button"
+                    // onClick={() => updateReview(review.bookReviewID)}
+                    onClick={() => setEditReview(true)}
+                  >
+                    <HiPencil className="btn__feather-icon" />
+                  </button>
                 </h3>
-                <p>
-                  {review.bookTitle} by {review.author} |{' '}
-                  {review.recommended ? 'Ya' : 'Na'}
+                <p className="reviews-list__item-subhead">
+                  {review.bookTitle} by {review.bookAuthor} |{' '}
+                  {review.recommended ? <HiStar /> : 'Na'}
                 </p>
                 <p>{review.reviewBody}</p>
-                <button
-                  type="button"
-                  onClick={() => deleteReview(review.bookReviewID)}
-                >
-                  Delete
-                </button>
               </li>
             );
           })}
@@ -182,14 +215,14 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
               value={bookTitle}
             />
           </label>
-          <label htmlFor="author">
+          <label htmlFor="bookAuthor">
             Author
             <input
-              name="author"
-              onChange={(e) => setAuthor(e.target.value)}
+              name="bookAuthor"
+              onChange={(e) => setBookAuthor(e.target.value)}
               placeholder="Author"
               type="text"
-              value={author}
+              value={bookAuthor}
             />
           </label>
           <label htmlFor="reviewTitle">
@@ -212,16 +245,6 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
               onChange={(e) => setRating(e.target.valueAsNumber)}
             />
           </label>
-          {/* <label htmlFor="recommended">
-            Recommended
-            <input
-              className="review-form__cbox-input"
-              type="checkbox"
-              name="recommended"
-              id="recommended"
-              onChange={(e) => setRecommended(e.target.defaultChecked)}
-            />
-          </label> */}
           <div>
             <label htmlFor="recommended">Recommended</label>
             <input
