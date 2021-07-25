@@ -245,16 +245,6 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
               onChange={(e) => setRating(e.target.valueAsNumber)}
             />
           </label>
-          {/* <label htmlFor="recommended">
-            Recommended
-            <input
-              className="review-form__cbox-input"
-              type="checkbox"
-              name="recommended"
-              id="recommended"
-              onChange={(e) => setRecommended(e.target.defaultChecked)}
-            />
-          </label> */}
           <div>
             <label htmlFor="recommended">Recommended</label>
             <input

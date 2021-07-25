@@ -85,7 +85,7 @@ model Post {
 
   // Many-to-One profile relationship
   postProfileId Int? // local ref        // relationship ref
-  profile       Profile? @relation(fields: [authorId], references: [profileId])
+  profile       Profile? @relation(fields: [postProfileId], references: [profileId])
 
   // Many-To-Many relatinship
   // TODO > changed from many-to-many to one-to-many (post can have one category, category can be used on many posts)
