@@ -146,6 +146,11 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
     });
   }
 
+  // TODO: This function currently logs whichever child of the list we click on. I think that can be used to update the from > when the edit button is clicked, display/render an update form for that specific item, then send it to the book-review/update route
+  async function updateHandler(id: number): Promise<void> {
+    console.log(id);
+  }
+
   // useEffect((): any => {
   //   const res = fetch('/api/book-review/read');
   //   return () => {
@@ -165,11 +170,8 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
         <h2>Past Reviews</h2>
         <ul className="reviews-list__list-parent">
           {reviews.map((review) => {
-            console.log(review);
-
-            return editReview ? (
-              <div>Edit time!</div>
-            ) : (
+            // console.log(review);
+            return (
               <li
                 className="reviews-list__item-wrapper"
                 key={review.bookReviewID}
@@ -187,7 +189,8 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
                     className="btn--icon-only"
                     type="button"
                     // onClick={() => updateReview(review.bookReviewID)}
-                    onClick={() => setEditReview(true)}
+                    // onClick={() => setEditReview(true)}
+                    onClick={() => updateHandler(review.bookReviewID)}
                   >
                     <HiPencil className="btn__feather-icon" />
                   </button>
