@@ -186,7 +186,14 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
   //   console.log(item, index, array);
   // });
 
-  result();
+  // result();
+
+  const filteredReviews = reviews.map((review) => {
+    // console.log(review);
+    return <li key={review.bookReviewID}>{review.reviewTitle}</li>;
+  });
+
+  console.log(`the filtered reviews are:`, filteredReviews);
 
   console.log(arrayFilteredById);
   // console.log(filteredById);
