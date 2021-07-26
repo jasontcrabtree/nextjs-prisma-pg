@@ -1,11 +1,10 @@
-import Layout from '../components/Layout';
-import prisma from '../lib/prisma';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 import { GetServerSideProps } from 'next';
 import { FiTrash2 } from 'react-icons/fi';
 import { HiPencil, HiStar } from 'react-icons/hi';
+import Link from 'next/link';
+import Layout from '../components/Layout';
 
 /*
   TODO
@@ -71,6 +70,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   );
 
   const bookReviews = await res.json();
+
   return {
     props: { bookReviews },
   };
@@ -93,11 +93,26 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
   const [bookAuthor, setBookAuthor] = useState('');
   const [editReview, setEditReview] = useState(false);
 
+  const [updateReviewSelection, setUpdateReviewSelection] = useState(0);
+
+  const [displayUpdateUI, setdisplayUpdateUI] = useState(false);
+
   const router = useRouter();
+
+  /**
+   * @function
+   * We call this whenever we update state to force revalidate serverside props.
+   *
+   * E.g. on create, update, delete functions
+   */
+  function refreshServerSide() {
+    router.replace(router.asPath);
+  }
 
   const submitBookReview = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    console.log('Save');
+    // console.log('Save');
+
     try {
       const body = {
         bookTitle,
@@ -113,8 +128,8 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });
-
-      console.log(body);
+      // console.log(body);
+      refreshServerSide();
     } catch (error) {
       console.error(error);
     }
@@ -128,6 +143,7 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
     // .then(() => {
     //   router.push('/', undefined, { shallow: true });
     // });
+    refreshServerSide();
   }
 
   /*
@@ -140,15 +156,122 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
   */
 
   async function updateReview(id: number): Promise<void> {
-    console.log(id);
+    // console.log(id);
     await fetch(`/api/book-review/update/${id}`, {
       method: 'post',
     });
+    refreshServerSide();
   }
 
   // TODO: This function currently logs whichever child of the list we click on. I think that can be used to update the from > when the edit button is clicked, display/render an update form for that specific item, then send it to the book-review/update route
   async function updateHandler(id: number): Promise<void> {
-    console.log(id);
+    // console.log(id);
+    setdisplayUpdateUI(!displayUpdateUI);
+    setUpdateReviewSelection(id);
+    // refreshServerSide();
+  }
+
+  console.log(bookReviews);
+
+  const bookReviewsArray = [bookReviews];
+
+  console.log(bookReviewsArray);
+
+  const filteredById = bookReviews.find((filterID) => filterID.id === '7');
+  const arrayFilteredById = bookReviewsArray.find(
+    (filterID) => filterID.id === '7',
+  );
+
+  // const result = arrayFilteredById[1].find(function (item, index, array) {
+  //   console.log(item, index, array);
+  // });
+
+  result();
+
+  console.log(arrayFilteredById);
+  // console.log(filteredById);
+
+  function UpdateReviewForm(props: any) {
+    // console.log(props);
+    return (
+      <div>
+        <p>Hey, we're going to update review number {props.updateId}</p>
+        <form onSubmit={submitBookReview} className="review-form__wrapper">
+          <label htmlFor="bookTitle">
+            Book Title
+            <input
+              name="bookTitle"
+              onChange={(e) => setBookTitle(e.target.value)}
+              placeholder="Book Title"
+              type="text"
+              value={bookTitle}
+            />
+          </label>
+          <label htmlFor="bookAuthor">
+            Author
+            <input
+              name="bookAuthor"
+              onChange={(e) => setBookAuthor(e.target.value)}
+              placeholder="Author"
+              type="text"
+              value={bookAuthor}
+            />
+          </label>
+          <label htmlFor="reviewTitle">
+            Review Title
+            <input
+              name="reviewTitle"
+              onChange={(e) => setReviewTitle(e.target.value)}
+              placeholder="Title"
+              type="text"
+              value={reviewTitle}
+            />
+          </label>
+          <label htmlFor="rating">
+            Rating
+            <input
+              type="number"
+              name="rating"
+              id="rating"
+              value={rating}
+              onChange={(e) => setRating(e.target.valueAsNumber)}
+            />
+          </label>
+          <div>
+            <label htmlFor="recommended">Recommended</label>
+            <input
+              type="radio"
+              name="recommendation"
+              id="recommended"
+              onChange={(e) => setRecommended(e.target.checked)}
+            />
+            <label htmlFor="not-recommended">Not Recommended</label>
+            <input
+              type="radio"
+              name="recommendation"
+              id="not-recommended"
+              onChange={(e) => setRecommended(!e.target.checked)}
+            />
+          </div>
+          <label htmlFor="reviewBody" className="review-form__body-input">
+            Review
+            <textarea
+              name="reviewBody"
+              cols={96}
+              onChange={(e) => setReviewBody(e.target.value)}
+              placeholder="Review"
+              rows={4}
+              value={reviewBody}
+            />
+          </label>
+          <input
+            disabled={!reviewBody || !bookTitle}
+            type="submit"
+            value="Save Review"
+          />
+        </form>
+      </div>
+    );
   }
 
   // useEffect((): any => {
@@ -205,6 +328,15 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
           })}
         </ul>
       </section>
+      {displayUpdateUI ? (
+        <UpdateReviewForm updateId={updateReviewSelection} />
+      ) : null}
+      {/* {displayUpdateUI {
+          console.log('hey');
+          return (<div>Update {reviews?.bookReviewID}</div>)
+      } else {
+        null
+      }} */}
       <section>
         <h2>New Review</h2>
         <form onSubmit={submitBookReview} className="review-form__wrapper">
