@@ -4,7 +4,7 @@ export default async function handleUpdate(req, res) {
   // const reqID = req.id
   const reqID = req.query.id;
 
-  console.log(req);
+  console.log('[Update params]', 'ID:', reqID, 'Req.Body:', req.body);
 
   const updateBookReview = await prisma.bookReview.update({
     where: { bookReviewID: Number(reqID) },

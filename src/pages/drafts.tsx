@@ -17,13 +17,13 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     return { props: { drafts: [] } };
   }
 
-  const post = await prisma.post.findMany({
-    where: {
-      author: {
-        email: session.user.email,
-      },
-    },
-  });
+  // const post = await prisma.post.findMany({
+  //   where: {
+  //     author: {
+  //       email: session.user.email,
+  //     },
+  //   },
+  // });
 
   // console.log('term', post);
 
@@ -47,6 +47,8 @@ type DraftPostProps = {
 };
 
 function Drafts(props: DraftPostProps) {
+  console.log(props);
+
   const [session] = useSession();
   if (!session) {
     return (

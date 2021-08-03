@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { FiTrash2 } from 'react-icons/fi';
@@ -97,6 +97,17 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
 
   const [displayUpdateUI, setdisplayUpdateUI] = useState(false);
 
+  const [filteredResult, setFilteredResult] = useState({});
+
+  const [updatedBookReview, setUpdatedBookReview] = useState({
+    updatedBookTitle: '',
+    updatedReviewTitle: '',
+    updatedReviewBody: '',
+    updatedRecommended: false,
+    updatedRating: 0,
+    updatedBookAuthor: '',
+  });
+
   const router = useRouter();
 
   /**
@@ -163,24 +174,87 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
     refreshServerSide();
   }
 
+  function filterReviewsByID(reviews, id) {
+    const filteredResult = reviews.filter(
+      // (review) => review.bookReviewID === id,
+      (review) => review.bookReviewID === id,
+    );
+
+    filteredResult ? filteredResult : null;
+
+    // console.log(filteredResult);
+
+    setFilteredResult(filteredResult);
+
+    return filteredResult;
+  }
+
+  // filterReviewsByID(reviews, 6);
+
   // TODO: This function currently logs whichever child of the list we click on. I think that can be used to update the from > when the edit button is clicked, display/render an update form for that specific item, then send it to the book-review/update route
   async function updateHandler(id: number): Promise<void> {
     // console.log(id);
     setdisplayUpdateUI(!displayUpdateUI);
     setUpdateReviewSelection(id);
+    filterReviewsByID(reviews, id);
+    // console.log(filteredResult);
     // refreshServerSide();
   }
 
-  console.log(bookReviews);
+  // console.log(bookReviews);
 
   const bookReviewsArray = [bookReviews];
 
-  console.log(bookReviewsArray);
+  // console.log(bookReviewsArray);
 
   const filteredById = bookReviews.find((filterID) => filterID.id === '7');
+
   const arrayFilteredById = bookReviewsArray.find(
     (filterID) => filterID.id === '7',
   );
+
+  // async function deleteReview(id: number): Promise<void> {
+  //   await fetch(`/api/book-review/delete/${id}`, {
+  //     method: 'delete',
+  //   });
+  //   // .then(() => {
+  //   //   router.push('/', undefined, { shallow: true });
+  //   // });
+  //   refreshServerSide();
+  // }
+
+  const updateBody = {
+    bookTitle,
+    reviewTitle,
+    reviewBody,
+    recommended,
+    rating,
+    bookAuthor,
+  };
+
+  setUpdatedBookReview;
+
+  function updateReviewHandler(e) {
+    setUpdatedBookReview({
+      ...updatedBookReview,
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  async function updateBookReview(id: number): Promise<void> {
+    setdisplayUpdateUI(!displayUpdateUI);
+    setUpdateReviewSelection(id);
+    // console.log(id);
+    await fetch(`/api/book-review/update/${id}`, {
+      method: 'put',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedBookReview),
+    }).then(() => {
+      // router.push('/', undefined, { shallow: true });
+      // refreshServerSide();
+      // console.log('Updating done eh');
+    });
+  }
 
   // const result = arrayFilteredById[1].find(function (item, index, array) {
   //   console.log(item, index, array);
@@ -188,20 +262,112 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
 
   // result();
 
-  const filteredReviews = reviews.map((review) => {
-    // console.log(review);
-    return <li key={review.bookReviewID}>{review.reviewTitle}</li>;
-  });
+  // console.log(reviews);
 
-  console.log(`the filtered reviews are:`, filteredReviews);
+  // const filter = reviews.filter(() => {
+  //   // (item) => item.bookReviewID < 8;
+  //   // console.log(reviews);
+  //   reviews.map((filteredReview) => {
+  //     filteredReview.bookReviewID = 7;
+  //     console.log(filteredReview);
+  //   });
+  // });
 
-  console.log(arrayFilteredById);
+  // function filterItems(objectToFilter: any, args: any) {
+  //   const filteredItems = objectToFilter.find(
+  //     (item) => item.bookReviewID === Number(args.id),
+  //   );
+  //   return filteredItems;
+  // }
+
+  // const bigCities = reviews.filter((city) => city.bookReviewID === 7);
+  // console.log(bigCities);
+
+  // function filterReviews() {}
+  // console.log(filter);
+
+  // const filteredReviews = reviews
+  //   .filter(function (id) {
+  //     bookReviewID === 7;
+  //   })
+  //   .map((review) => {
+  //     // console.log(review);
+  //     return <li key={review.bookReviewID}>{review.reviewTitle}</li>;
+  //   });
+
+  // console.log(`the filtered reviews are:`, filteredReviews);
+
+  // console.log(arrayFilteredById);
   // console.log(filteredById);
 
-  function UpdateReviewForm(props: any) {
+  function UpdateReviewForm(props: any, filteredResult) {
     // console.log(props);
+    const updateIdProp = props.updateId;
+    // console.log(reviews);
+
+    // const mappedReviews = reviews.map((revi) => console.log(revi));
+
+    // const mappedReviewsF = reviews.filter.map(
+    //   (revi) => revi.bookReviewID === updateIdProp,
+    // );
+
+    // const totalJediScore = personnel
+    //   .filter((person) => person.isForceUser)
+    //   .map((jedi) => jedi.pilotingScore + jedi.shootingScore)
+    //   .reduce((acc, score) => acc + score, 0);
+
+    // const mapFilterReviews = reviews
+    //   .filter(
+    //     (filteredReviews) => filteredReviews.bookReviewID === updateIdProp,
+    //   )
+    //   .map((mappedFilteredReview) => console.log(mappedFilteredReview));
+
+    // // console.log(mappedReviews);
+
+    const updateReviewViaID = reviews.filter(
+      (rev) => rev.bookReviewID === updateIdProp,
+    )[0];
+    console.log(updateReviewViaID);
+
+    // console.log(filteredResult);
+
+    // useEffect(() => {
+    //   setFilteredResult(res);
+    //   return () => {
+    //     console.log('clean up');
+    //   };
+    // }, []);
+
+    // // const rebels = pilots.filter((pilot) => pilot.faction === 'Rebels');
+
+    // const filteredReviewUpdateID = reviews.filter(
+    //   (filteredReview) => filteredReview,
+    // );
+
+    // console.log(reviews[0]);
+
+    // console.log(typeof reviews[1]);
+
+    // console.log(updateIdProp);
+
+    // const filteredHomes = reviews.filter(
+    //   (x) => x.bookReviewID === updateIdProp,
+    // );
+
+    // console.log(filteredHomes);
+
+    // console.log(reviews[1]);
+    // console.log(reviews);
+
+    // console.log(filteredReviewUpdateID);
+
+    // console.log(res);
+    // const result = words.filter((word) => word.length > 6);
+    // bookReviewID;
+    // console.log(reviews[id]);
+    // filterReviewsByID(reviews, props.updateId);
     return (
-      <div>
+      <div className="update-form__wrapper">
         <p>Hey, we're going to update review number {props.updateId}</p>
         <form onSubmit={submitBookReview} className="review-form__wrapper">
           <label htmlFor="bookTitle">
@@ -211,7 +377,7 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
               onChange={(e) => setBookTitle(e.target.value)}
               placeholder="Book Title"
               type="text"
-              value={bookTitle}
+              value={updateReviewViaID?.bookTitle || 'Add a new book'}
             />
           </label>
           <label htmlFor="bookAuthor">
@@ -221,7 +387,7 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
               onChange={(e) => setBookAuthor(e.target.value)}
               placeholder="Author"
               type="text"
-              value={bookAuthor}
+              value={updateReviewViaID?.bookAuthor || 'Add a new book'}
             />
           </label>
           <label htmlFor="reviewTitle">
@@ -231,7 +397,7 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
               onChange={(e) => setReviewTitle(e.target.value)}
               placeholder="Title"
               type="text"
-              value={reviewTitle}
+              value={updateReviewViaID?.reviewTitle || 'Add a new book'}
             />
           </label>
           <label htmlFor="rating">
@@ -240,7 +406,7 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
               type="number"
               name="rating"
               id="rating"
-              value={rating}
+              value={updateReviewViaID?.rating || 'Add a new book'}
               onChange={(e) => setRating(e.target.valueAsNumber)}
             />
           </label>
@@ -268,7 +434,7 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
               onChange={(e) => setReviewBody(e.target.value)}
               placeholder="Review"
               rows={4}
-              value={reviewBody}
+              value={updateReviewViaID?.reviewBody || 'Add a new book'}
             />
           </label>
           <input
@@ -320,7 +486,8 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
                     type="button"
                     // onClick={() => updateReview(review.bookReviewID)}
                     // onClick={() => setEditReview(true)}
-                    onClick={() => updateHandler(review.bookReviewID)}
+                    // onClick={() => updateHandler(review.bookReviewID)}
+                    onClick={() => updateBookReview(review.bookReviewID)}
                   >
                     <HiPencil className="btn__feather-icon" />
                   </button>
@@ -338,12 +505,6 @@ const CrudActions: React.FC<Props> = ({ bookReviews }) => {
       {displayUpdateUI ? (
         <UpdateReviewForm updateId={updateReviewSelection} />
       ) : null}
-      {/* {displayUpdateUI {
-          console.log('hey');
-          return (<div>Update {reviews?.bookReviewID}</div>)
-      } else {
-        null
-      }} */}
       <section>
         <h2>New Review</h2>
         <form onSubmit={submitBookReview} className="review-form__wrapper">

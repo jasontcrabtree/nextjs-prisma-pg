@@ -170,5 +170,12 @@ section {
 }
 
 .reviews-list__item-wrapper:hover {
-  border-color: rgba(130, 236, 178, 0.4);
+  border-color: rgba(54, 54, 54, 0.4);
+}
+
+.update-form__wrapper {
+  background-color: #090120;
+  box-shadow: 0px 8px 16px 0px rgba(25, 24, 68, 0.6);
+  padding: 16px;
+  margin-top: 24px;
 }
